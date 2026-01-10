@@ -252,6 +252,35 @@
     .row{ grid-template-columns: 1fr; }
     .catGrid{ grid-template-columns: 1fr 1fr; } /* keep 2 columns even on mobile */
   }
+  
+  
+  .sectionFrame{
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(10,18,35,.35);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.25) inset;
+}
+
+.sectionHead{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  margin-bottom: 10px;
+}
+
+.sectionTitle{
+  font-size: 13px;
+  color: rgba(159,176,208,.95);
+  font-weight: 750;
+  letter-spacing: .2px;
+}
+
+.sectionHint{
+  font-size: 12px;
+  color: rgba(159,176,208,.65);
+}
 </style>
 </head>
 
@@ -281,7 +310,11 @@
           <input type="radio" name="method" id="mCard" value="Card">
           <label class="pill" for="mCard">Card</label>
         </div>
-
+<div class="sectionFrame">
+  <div class="sectionHead">
+    <span class="sectionTitle">Category</span>
+    <span class="sectionHint">Tap one</span>
+  </div>
 <label>Category</label>
 
 <input id="category" type="hidden" value="Groceries" />
@@ -319,7 +352,7 @@
     <span class="catIcon">📦</span><span class="catText">Other</span>
   </button>
 </div>
-
+</div>
         <div class="row">
           <div>
             <label for="amount">Amount</label>

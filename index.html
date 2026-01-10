@@ -5,178 +5,254 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Wife Wallet</title>
   <style>
-    :root{
-      --bg:#0b1220;
-      --card:#0f1a2e;
-      --text:#e8eefc;
-      --muted:#9fb0d0;
-      --blue:#2f6bff;
-      --blue2:#1f4fd1;
-      --ok:#2dd4bf;
-      --err:#fb7185;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius:18px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 800px at 30% -10%, #12244a 0%, rgba(18,36,74,0) 60%),
-                  radial-gradient(900px 600px at 110% 10%, #1a2d63 0%, rgba(26,45,99,0) 55%),
-                  var(--bg);
-      color:var(--text);
-      min-height:100vh;
-      display:flex;
-      align-items:flex-start;
-      justify-content:center;
-      padding:24px 14px 60px;
-    }
-    .wrap{ width:min(720px, 100%); }
-    h1{ margin: 6px 0 14px; font-size: 28px; letter-spacing: .2px; }
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      border:1px solid rgba(255,255,255,.08);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 18px;
-    }
-    label{
-      display:block;
-      font-size: 13px;
-      color: var(--muted);
-      margin: 12px 0 8px;
-    }
-    input[type="date"], input[type="number"], input[type="text"], select{
-      width:100%;
-      background: rgba(10,18,35,.7);
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 14px;
-      padding: 14px 14px;
-      outline: none;
-      font-size: 16px;
-    }
-    input::placeholder{ color: rgba(231,238,252,.35); }
-    select{ padding-right: 44px; }
-    .row{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .pillRow{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .pill{
-      user-select:none;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 14px 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(10,18,35,.55);
-      color: var(--text);
-      font-weight: 650;
-      cursor:pointer;
-      transition: .15s ease;
-    }
-    .pill:active{ transform: scale(.99); }
-    input[type="radio"]{ display:none; }
-    input[type="radio"]:checked + .pill{
-      border-color: rgba(47,107,255,.8);
-      box-shadow: 0 0 0 3px rgba(47,107,255,.18) inset;
-      background: rgba(47,107,255,.10);
-    }
-    .btn{
-      margin-top: 16px;
-      width:100%;
-      background: linear-gradient(180deg, var(--blue), var(--blue2));
-      color:white;
-      border:none;
-      border-radius: 16px;
-      padding: 16px 14px;
-      font-size: 18px;
-      font-weight: 750;
-      cursor:pointer;
-      transition: .15s ease;
-    }
-    .btn:disabled{ opacity:.6; cursor:not-allowed; }
-    .status{
-      margin-top: 12px;
-      font-size: 14px;
-      color: var(--muted);
-      min-height: 20px;
-      word-break: break-word;
-    }
-    .status .ok{ color: var(--ok); font-weight: 650; }
-    .status .err{ color: var(--err); font-weight: 650; }
-    .hint{
-      margin-top: 14px;
-      font-size: 12.5px;
-      color: rgba(159,176,208,.85);
-      line-height: 1.45;
-      padding: 12px 12px;
-      border-radius: 14px;
-      background: rgba(10,18,35,.45);
-      border: 1px solid rgba(255,255,255,.07);
-    }
-    @media (max-width:520px){
-      .row{ grid-template-columns: 1fr; }
-    }
-    /* Category pills (button version) */
-.cat-pill{
-  width: 100%;
-  background: rgba(10,18,35,.55);
-}
+  :root{
+    --bg:#0b1220;
+    --card:#0f1a2e;
+    --text:#e8eefc;
+    --muted:#9fb0d0;
+    --line:#1e2b46;
 
-/* mimic radio checked style */
-.cat-pill.is-active{
-  border-color: rgba(47,107,255,.8);
-  box-shadow: 0 0 0 3px rgba(47,107,255,.18) inset;
-  background: rgba(47,107,255,.10);
-}
+    --blue:#2f6bff;
+    --blue2:#1f4fd1;
 
-/* make the pill look right as a button */
-button.pill{
-  appearance:none;
-  -webkit-appearance:none;
-  border: 1px solid rgba(255,255,255,.10);
-  
-  
-  .categoryGrid{
+    --ok:#2dd4bf;
+    --err:#fb7185;
+
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+    --radius:18px;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background:
+      radial-gradient(1200px 800px at 30% -10%, #12244a 0%, rgba(18,36,74,0) 60%),
+      radial-gradient(900px 600px at 110% 10%, #1a2d63 0%, rgba(26,45,99,0) 55%),
+      var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:24px 14px 60px;
+  }
+
+  .wrap{ width:min(720px, 100%); }
+
+  h1{
+    margin: 6px 0 14px;
+    font-size: 28px;
+    letter-spacing: .2px;
+  }
+
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    border:1px solid rgba(255,255,255,.08);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 18px;
+  }
+
+  label{
+    display:block;
+    font-size: 13px;
+    color: var(--muted);
+    margin: 12px 0 8px;
+  }
+
+  input[type="date"],
+  input[type="number"],
+  input[type="text"],
+  select{
+    width:100%;
+    background: rgba(10,18,35,.7);
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 14px;
+    padding: 14px 14px;
+    outline: none;
+    font-size: 16px;
+  }
+
+  input::placeholder{ color: rgba(231,238,252,.35); }
+  select{ padding-right: 44px; }
+
+  .row{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* ========= Type + Method pills (keep as-is) ========= */
+  .pillRow{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .pill{
+    -webkit-tap-highlight-color: transparent;
+    user-select:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 14px 12px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.10);
+    background: rgba(10,18,35,.55);
+    color: var(--text);
+    font-weight: 750;
+    cursor:pointer;
+    transition: .15s ease;
+  }
+
+  .pill:active{ transform: scale(.99); }
+  input[type="radio"]{ display:none; }
+
+  input[type="radio"]:checked + .pill{
+    border-color: rgba(47,107,255,.85);
+    box-shadow: 0 0 0 3px rgba(47,107,255,.18) inset;
+    background: rgba(47,107,255,.10);
+  }
+
+  /* ========= Category tiles (distinct style) ========= */
+/* ========= Category tiles (distinct style) ========= */
+
+.catGrid{
   display:grid;
-  grid-template-columns: 1fr 1fr;
+  /* responsive columns: makes tiles bigger + cleaner */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+@media (min-width: 520px){
+  .catGrid{
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* make categories feel different from Type/Method pills */
+.catTile{
+  -webkit-tap-highlight-color: transparent;
+  width:100%;
+  display:flex;
+  align-items:center;
   gap: 10px;
-  margin-top: 6px;
-}
 
-.catBtn{
-  background: rgba(255,255,255,.03);
-  border: 1px solid rgba(255,255,255,.12);
-  color: var(--text);
-  padding: 12px;
+  padding: 14px 12px;
+  min-height: 56px;
+
+  /* slightly squarer than pills, to feel like "tiles" */
   border-radius: 14px;
-  font-size: 15px;
-  font-weight: 600;
-  text-align: center;
-  cursor: pointer;
-  transition: all .15s ease;
+
+  border: 1px solid rgba(255,255,255,.10);
+
+  /* distinct background (still matches your theme) */
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(10,18,35,.55));
+
+  color: var(--text);
+  cursor:pointer;
+  text-align:left;
+
+  /* smoother + more “tap” feeling */
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background .12s ease;
 }
 
-.catBtn.active{
+.catTile:active{
+  transform: scale(.99);
+}
+
+.catIcon{
+  font-size: 18px;
+  width: 30px;
+  height: 30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity: .95;
+
+  border-radius: 10px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+.catText{
+  font-size: 14.5px;
+  font-weight: 850;
+  letter-spacing: .2px;
+  line-height: 1.1;
+}
+
+/* strong selected state (VERY obvious) */
+.catTile.active{
+  border-color: rgba(47,107,255,.95);
+  background:
+    linear-gradient(180deg, rgba(47,107,255,.22), rgba(47,107,255,.08));
+
+  box-shadow:
+    0 0 0 3px rgba(47,107,255,.20) inset,
+    0 10px 26px rgba(0,0,0,.30);
+
+  transform: translateY(-1px);
+}
+
+/* optional: make the icon pop on active */
+.catTile.active .catIcon{
   background: rgba(47,107,255,.18);
-  border-color: rgba(47,107,255,.9);
+  border-color: rgba(47,107,255,.35);
 }
 
-.catBtn:active{
-  transform: scale(.98);
-}
+  /* ========= Button ========= */
+  .btn{
+    margin-top: 16px;
+    width:100%;
+    background: linear-gradient(180deg, var(--blue), var(--blue2));
+    color:white;
+    border:none;
+    border-radius: 16px;
+    padding: 16px 14px;
+    font-size: 18px;
+    font-weight: 850;
+    cursor:pointer;
+    transition: .15s ease;
+  }
 
+  .btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+  }
 
-}
-  </style>
+  /* ========= Status + Hint ========= */
+  .status{
+    margin-top: 12px;
+    font-size: 14px;
+    color: var(--muted);
+    min-height: 20px;
+    word-break: break-word;
+  }
+  .status .ok{ color: var(--ok); font-weight: 750; }
+  .status .err{ color: var(--err); font-weight: 750; }
+
+  .hint{
+    margin-top: 14px;
+    font-size: 12.5px;
+    color: rgba(159,176,208,.85);
+    line-height: 1.45;
+    padding: 12px 12px;
+    border-radius: 14px;
+    background: rgba(10,18,35,.45);
+    border: 1px solid rgba(255,255,255,.07);
+  }
+
+  @media (max-width:520px){
+    .row{ grid-template-columns: 1fr; }
+    .catGrid{ grid-template-columns: 1fr 1fr; } /* keep 2 columns even on mobile */
+  }
+</style>
 </head>
 
 <body>
@@ -208,18 +284,40 @@ button.pill{
 
 <label>Category</label>
 
-<!-- Hidden value used in payload -->
 <input id="category" type="hidden" value="Groceries" />
 
-<div class="categoryGrid" id="catPills">
-  <button type="button" class="catBtn active" data-value="Groceries">🛒 Groceries</button>
-  <button type="button" class="catBtn" data-value="Food – Outside">🍽️ Food – Outside</button>
-  <button type="button" class="catBtn" data-value="Household / Utilities">🏠 Household</button>
-  <button type="button" class="catBtn" data-value="Coffee, Snacks & Juice">☕ Coffee & Snacks</button>
-  <button type="button" class="catBtn" data-value="Shopping">🛍️ Shopping</button>
-  <button type="button" class="catBtn" data-value="Transport">🚗 Transport</button>
-  <button type="button" class="catBtn" data-value="Health">💊 Health</button>
-  <button type="button" class="catBtn" data-value="Other">📦 Other</button>
+<div class="catGrid" id="catPills">
+  <button type="button" class="catTile active" data-value="Groceries">
+    <span class="catIcon">🛒</span><span class="catText">Groceries</span>
+  </button>
+
+  <button type="button" class="catTile" data-value="Food – Outside">
+    <span class="catIcon">🍽️</span><span class="catText">Food – Outside</span>
+  </button>
+
+  <button type="button" class="catTile" data-value="Household / Utilities">
+    <span class="catIcon">🏠</span><span class="catText">Household</span>
+  </button>
+
+  <button type="button" class="catTile" data-value="Coffee, Snacks & Juice">
+    <span class="catIcon">☕</span><span class="catText">Coffee & Snacks</span>
+  </button>
+
+  <button type="button" class="catTile" data-value="Shopping">
+    <span class="catIcon">🛍️</span><span class="catText">Shopping</span>
+  </button>
+
+  <button type="button" class="catTile" data-value="Transport">
+    <span class="catIcon">🚗</span><span class="catText">Transport</span>
+  </button>
+
+  <button type="button" class="catTile" data-value="Health">
+    <span class="catIcon">💊</span><span class="catText">Health</span>
+  </button>
+
+  <button type="button" class="catTile" data-value="Other">
+    <span class="catIcon">📦</span><span class="catText">Other</span>
+  </button>
 </div>
 
         <div class="row">
@@ -273,57 +371,29 @@ button.pill{
     }[m]));
   }
 
-  // ---- CATEGORY PILLS LOGIC ----
-  // Expects:
-  //  - buttons with class "cat-pill" and data-value="..."
-  //  - hidden input: <input id="category" type="hidden">
-  //  - optional: <div id="otherWrap"> + <input id="categoryOther">
-  function initCategoryPills(){
-    const pills = Array.from(document.querySelectorAll(".cat-pill"));
-    const hidden = $("category");
-    const otherWrap = $("otherWrap");
-    const otherInput = $("categoryOther");
+  // ===== CATEGORY TILES LOGIC (matches your HTML) =====
+  function initCategoryTiles(){
+    const wrap = $("catPills");
+    if (!wrap) return;
 
-    if (!hidden || pills.length === 0) return; // if you didn't add pills yet, do nothing
+    const tiles = Array.from(wrap.querySelectorAll(".catTile"));
+    const hidden = $("category");
+    if (!hidden || tiles.length === 0) return;
 
     function setActive(btn){
-      pills.forEach(p => p.classList.remove("is-active"));
-      btn.classList.add("is-active");
-
-      const val = btn.getAttribute("data-value") || "";
-
-      if (val === "Other") {
-        if (otherWrap) otherWrap.style.display = "block";
-        if (otherInput) {
-          otherInput.value = (otherInput.value || "").trim();
-          otherInput.focus();
-          hidden.value = otherInput.value ? otherInput.value : "Other";
-        } else {
-          hidden.value = "Other";
-        }
-      } else {
-        if (otherWrap) otherWrap.style.display = "none";
-        if (otherInput) otherInput.value = "";
-        hidden.value = val;
-      }
+      tiles.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      hidden.value = btn.getAttribute("data-value") || "";
     }
 
-    pills.forEach(btn => btn.addEventListener("click", () => setActive(btn)));
+    tiles.forEach(btn => btn.addEventListener("click", () => setActive(btn)));
 
-    // default selection
-    const active = pills.find(p => p.classList.contains("is-active")) || pills[0];
-    if (active) setActive(active);
-
-    // if user types an "Other" value, store it as category
-    if (otherInput) {
-      otherInput.addEventListener("input", () => {
-        const v = (otherInput.value || "").trim();
-        hidden.value = v.length ? v : "Other";
-      });
-    }
+    // ensure initial category is synced to hidden input
+    const active = tiles.find(b => b.classList.contains("active")) || tiles[0];
+    setActive(active);
   }
-  // -------------------------------
 
+  // ===== SUBMIT =====
   function submitEntry(e){
     e.preventDefault();
 
@@ -332,32 +402,33 @@ button.pill{
       return;
     }
 
-    // Category comes from hidden #category (set by pills)
-    const categoryVal = $("category") ? $("category").value : "";
-
     const payload = {
       token: TOKEN,
       date: $("date").value,
       type: document.querySelector('input[name="type"]:checked')?.value || "",
       method: document.querySelector('input[name="method"]:checked')?.value || "",
-      category: categoryVal,
+      category: $("category").value || "",
       amount: $("amount").value,
       note: $("note").value || ""
     };
 
+    if (!payload.category) {
+      setStatus(`<span class="err">Error:</span> Pick a category.`);
+      return;
+    }
+
     $("submitBtn").disabled = true;
     setStatus(`Posting…`);
 
-    // Put JSON text into the hidden field named "payload"
+    // Put JSON into hidden field named payload
     $("payloadField").value = JSON.stringify(payload);
 
-    // Submit as a normal form POST (no CORS preflight)
+    // Normal form POST (no CORS preflight)
     const form = $("postForm");
     form.action = ENDPOINT;
     form.method = "POST";
     form.target = "postTarget";
 
-    // When iframe loads, assume success
     const iframe = $("postTarget");
     iframe.onload = () => {
       setStatus(`<span class="ok">Sent ✅</span> Check the Google Sheet for the new row.`);
@@ -369,31 +440,23 @@ button.pill{
     };
 
     try{
-      // IMPORTANT: avoid form.submit shadowing issues
+      // avoid "form.submit is not a function" (shadowing)
       HTMLFormElement.prototype.submit.call(form);
     } catch (err){
       setStatus(`<span class="err">Error:</span> ${escapeHtml(err.message || String(err))}`);
       $("submitBtn").disabled = false;
+      iframe.onload = null;
     }
   }
 
   window.addEventListener("DOMContentLoaded", () => {
     $("date").value = todayISO();
-    initCategoryPills(); // ✅ initialize pills
+
+    initCategoryTiles();
+
     $("postForm").addEventListener("submit", submitEntry);
     setStatus(`Ready.`);
   });
-  
-  const catButtons = Array.from(document.querySelectorAll(".catBtn"));
-const hiddenCategory = document.getElementById("category");
-
-catButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    catButtons.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    hiddenCategory.value = btn.dataset.value;
-  });
-});
 </script>
 </body>
 </html>

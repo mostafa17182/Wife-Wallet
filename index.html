@@ -143,6 +143,38 @@ button.pill{
   appearance:none;
   -webkit-appearance:none;
   border: 1px solid rgba(255,255,255,.10);
+  
+  
+  .categoryGrid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.catBtn{
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.12);
+  color: var(--text);
+  padding: 12px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+
+.catBtn.active{
+  background: rgba(47,107,255,.18);
+  border-color: rgba(47,107,255,.9);
+}
+
+.catBtn:active{
+  transform: scale(.98);
+}
+
+
 }
   </style>
 </head>
@@ -174,27 +206,20 @@ button.pill{
           <label class="pill" for="mCard">Card</label>
         </div>
 
-        <label>Category</label>
+<label>Category</label>
 
-<!-- Hidden value actually used in payload -->
+<!-- Hidden value used in payload -->
 <input id="category" type="hidden" value="Groceries" />
 
-<div class="pillRow" id="catPills" style="grid-template-columns: 1fr 1fr;">
-  <button type="button" class="pill cat-pill is-active" data-value="Groceries">Groceries</button>
-  <button type="button" class="pill cat-pill" data-value="Food – Outside">Food – Outside</button>
-
-  <button type="button" class="pill cat-pill" data-value="Household / Utilities">Household / Utilities</button>
-  <button type="button" class="pill cat-pill" data-value="Coffee, Snacks & Juice">Coffee, Snacks & Juice</button>
-
-  <button type="button" class="pill cat-pill" data-value="Shopping">Shopping</button>
-  <button type="button" class="pill cat-pill" data-value="Transport">Transport</button>
-
-  <button type="button" class="pill cat-pill" data-value="Other">Other</button>
-</div>
-
-<div id="otherWrap" style="display:none; margin-top: 10px;">
-  <label for="categoryOther">Other category</label>
-  <input id="categoryOther" type="text" placeholder="Type category..." />
+<div class="categoryGrid" id="catPills">
+  <button type="button" class="catBtn active" data-value="Groceries">🛒 Groceries</button>
+  <button type="button" class="catBtn" data-value="Food – Outside">🍽️ Food – Outside</button>
+  <button type="button" class="catBtn" data-value="Household / Utilities">🏠 Household</button>
+  <button type="button" class="catBtn" data-value="Coffee, Snacks & Juice">☕ Coffee & Snacks</button>
+  <button type="button" class="catBtn" data-value="Shopping">🛍️ Shopping</button>
+  <button type="button" class="catBtn" data-value="Transport">🚗 Transport</button>
+  <button type="button" class="catBtn" data-value="Health">💊 Health</button>
+  <button type="button" class="catBtn" data-value="Other">📦 Other</button>
 </div>
 
         <div class="row">
@@ -358,6 +383,17 @@ button.pill{
     $("postForm").addEventListener("submit", submitEntry);
     setStatus(`Ready.`);
   });
+  
+  const catButtons = Array.from(document.querySelectorAll(".catBtn"));
+const hiddenCategory = document.getElementById("category");
+
+catButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    catButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    hiddenCategory.value = btn.dataset.value;
+  });
+});
 </script>
 </body>
 </html>

@@ -125,6 +125,25 @@
     @media (max-width:520px){
       .row{ grid-template-columns: 1fr; }
     }
+    /* Category pills (button version) */
+.cat-pill{
+  width: 100%;
+  background: rgba(10,18,35,.55);
+}
+
+/* mimic radio checked style */
+.cat-pill.is-active{
+  border-color: rgba(47,107,255,.8);
+  box-shadow: 0 0 0 3px rgba(47,107,255,.18) inset;
+  background: rgba(47,107,255,.10);
+}
+
+/* make the pill look right as a button */
+button.pill{
+  appearance:none;
+  -webkit-appearance:none;
+  border: 1px solid rgba(255,255,255,.10);
+}
   </style>
 </head>
 
@@ -155,16 +174,28 @@
           <label class="pill" for="mCard">Card</label>
         </div>
 
-        <label for="category">Category</label>
-        <select id="category" required>
-          <option value="Groceries">Groceries</option>
-          <option value="Food – Outside">Food – Outside</option>
-          <option value="Household / Utilities">Household / Utilities</option>
-          <option value="Coffee, Snacks & Juice">Coffee, Snacks & Juice</option>
-          <option value="Shopping">Shopping</option>
-          <option value="Transport">Transport</option>
-          <option value="Other">Other</option>
-        </select>
+        <label>Category</label>
+
+<!-- Hidden value actually used in payload -->
+<input id="category" type="hidden" value="Groceries" />
+
+<div class="pillRow" id="catPills" style="grid-template-columns: 1fr 1fr;">
+  <button type="button" class="pill cat-pill is-active" data-value="Groceries">Groceries</button>
+  <button type="button" class="pill cat-pill" data-value="Food – Outside">Food – Outside</button>
+
+  <button type="button" class="pill cat-pill" data-value="Household / Utilities">Household / Utilities</button>
+  <button type="button" class="pill cat-pill" data-value="Coffee, Snacks & Juice">Coffee, Snacks & Juice</button>
+
+  <button type="button" class="pill cat-pill" data-value="Shopping">Shopping</button>
+  <button type="button" class="pill cat-pill" data-value="Transport">Transport</button>
+
+  <button type="button" class="pill cat-pill" data-value="Other">Other</button>
+</div>
+
+<div id="otherWrap" style="display:none; margin-top: 10px;">
+  <label for="categoryOther">Other category</label>
+  <input id="categoryOther" type="text" placeholder="Type category..." />
+</div>
 
         <div class="row">
           <div>
@@ -195,84 +226,138 @@
   <!-- Hidden iframe to submit without leaving the page -->
   <iframe id="postTarget" name="postTarget" style="display:none;"></iframe>
 
-  <script>
-    // ======= CONFIG (ONLY CHANGE ENDPOINT) =======
-    const ENDPOINT = "https://script.google.com/macros/s/AKfycbziDIbvRbN55xcLvL_yO0xBQ-1QpZ_qqo_Rzt75So8H6PwE5YZ8N4I6rPIAf4QwIFeB/exec";
-    const TOKEN = "WIFE_WALLET_2026";
-    // ============================================
+<script>
+  // ======= CONFIG (ONLY CHANGE ENDPOINT) =======
+  const ENDPOINT = "https://script.google.com/macros/s/AKfycbziDIbvRbN55xcLvL_yO0xBQ-1QpZ_qqo_Rzt75So8H6PwE5YZ8N4I6rPIAf4QwIFeB/exec";
+  const TOKEN = "WIFE_WALLET_2026";
+  // ============================================
 
-    function $(id){ return document.getElementById(id); }
+  function $(id){ return document.getElementById(id); }
 
-    function todayISO(){
-      const d = new Date();
-      const pad = n => String(n).padStart(2, "0");
-      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-    }
+  function todayISO(){
+    const d = new Date();
+    const pad = n => String(n).padStart(2, "0");
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  }
 
-    function setStatus(html){ $("msg").innerHTML = html; }
+  function setStatus(html){ $("msg").innerHTML = html; }
 
-    function escapeHtml(s){
-      return String(s).replace(/[&<>"']/g, m => ({
-        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-      }[m]));
-    }
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, m => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[m]));
+  }
 
-    function submitEntry(e){
-      e.preventDefault();
+  // ---- CATEGORY PILLS LOGIC ----
+  // Expects:
+  //  - buttons with class "cat-pill" and data-value="..."
+  //  - hidden input: <input id="category" type="hidden">
+  //  - optional: <div id="otherWrap"> + <input id="categoryOther">
+  function initCategoryPills(){
+    const pills = Array.from(document.querySelectorAll(".cat-pill"));
+    const hidden = $("category");
+    const otherWrap = $("otherWrap");
+    const otherInput = $("categoryOther");
 
-      if (!ENDPOINT || !ENDPOINT.startsWith("https://script.google.com/macros/s/")) {
-        setStatus(`<span class="err">Error:</span> ENDPOINT is not a valid Apps Script /exec URL.`);
-        return;
-      }
+    if (!hidden || pills.length === 0) return; // if you didn't add pills yet, do nothing
 
-      const payload = {
-        token: TOKEN,
-        date: $("date").value,
-        type: document.querySelector('input[name="type"]:checked')?.value || "",
-        method: document.querySelector('input[name="method"]:checked')?.value || "",
-        category: $("category").value,
-        amount: $("amount").value,
-        note: $("note").value || ""
-      };
+    function setActive(btn){
+      pills.forEach(p => p.classList.remove("is-active"));
+      btn.classList.add("is-active");
 
-      $("submitBtn").disabled = true;
-      setStatus(`Posting…`);
+      const val = btn.getAttribute("data-value") || "";
 
-      // Put JSON text into the hidden field named "payload"
-      $("payloadField").value = JSON.stringify(payload);
-
-      // Submit as a normal form POST (no CORS preflight)
-      const form = $("postForm");
-      form.action = ENDPOINT;
-      form.method = "POST";
-      form.target = "postTarget";
-
-      // When iframe loads, assume success (Apps Script returns JSON but we don't read it here)
-      const iframe = $("postTarget");
-      iframe.onload = () => {
-        setStatus(`<span class="ok">Sent ✅</span> Check the Google Sheet for the new row.`);
-        $("amount").value = "";
-        $("note").value = "";
-        $("amount").focus();
-        $("submitBtn").disabled = false;
-
-        // remove handler so it doesn't fire on unrelated loads
-        iframe.onload = null;
-      };
-
-      try{
-        HTMLFormElement.prototype.submit.call(form);
-      } catch (err){
-        setStatus(`<span class="err">Error:</span> ${escapeHtml(err.message || String(err))}`);
-        $("submitBtn").disabled = false;
+      if (val === "Other") {
+        if (otherWrap) otherWrap.style.display = "block";
+        if (otherInput) {
+          otherInput.value = (otherInput.value || "").trim();
+          otherInput.focus();
+          hidden.value = otherInput.value ? otherInput.value : "Other";
+        } else {
+          hidden.value = "Other";
+        }
+      } else {
+        if (otherWrap) otherWrap.style.display = "none";
+        if (otherInput) otherInput.value = "";
+        hidden.value = val;
       }
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
-      $("date").value = todayISO();
-      $("postForm").addEventListener("submit", submitEntry);
-      setStatus(`Ready.`);
-    });
-  </script>
+    pills.forEach(btn => btn.addEventListener("click", () => setActive(btn)));
+
+    // default selection
+    const active = pills.find(p => p.classList.contains("is-active")) || pills[0];
+    if (active) setActive(active);
+
+    // if user types an "Other" value, store it as category
+    if (otherInput) {
+      otherInput.addEventListener("input", () => {
+        const v = (otherInput.value || "").trim();
+        hidden.value = v.length ? v : "Other";
+      });
+    }
+  }
+  // -------------------------------
+
+  function submitEntry(e){
+    e.preventDefault();
+
+    if (!ENDPOINT || !ENDPOINT.startsWith("https://script.google.com/macros/s/")) {
+      setStatus(`<span class="err">Error:</span> ENDPOINT is not a valid Apps Script /exec URL.`);
+      return;
+    }
+
+    // Category comes from hidden #category (set by pills)
+    const categoryVal = $("category") ? $("category").value : "";
+
+    const payload = {
+      token: TOKEN,
+      date: $("date").value,
+      type: document.querySelector('input[name="type"]:checked')?.value || "",
+      method: document.querySelector('input[name="method"]:checked')?.value || "",
+      category: categoryVal,
+      amount: $("amount").value,
+      note: $("note").value || ""
+    };
+
+    $("submitBtn").disabled = true;
+    setStatus(`Posting…`);
+
+    // Put JSON text into the hidden field named "payload"
+    $("payloadField").value = JSON.stringify(payload);
+
+    // Submit as a normal form POST (no CORS preflight)
+    const form = $("postForm");
+    form.action = ENDPOINT;
+    form.method = "POST";
+    form.target = "postTarget";
+
+    // When iframe loads, assume success
+    const iframe = $("postTarget");
+    iframe.onload = () => {
+      setStatus(`<span class="ok">Sent ✅</span> Check the Google Sheet for the new row.`);
+      $("amount").value = "";
+      $("note").value = "";
+      $("amount").focus();
+      $("submitBtn").disabled = false;
+      iframe.onload = null;
+    };
+
+    try{
+      // IMPORTANT: avoid form.submit shadowing issues
+      HTMLFormElement.prototype.submit.call(form);
+    } catch (err){
+      setStatus(`<span class="err">Error:</span> ${escapeHtml(err.message || String(err))}`);
+      $("submitBtn").disabled = false;
+    }
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    $("date").value = todayISO();
+    initCategoryPills(); // ✅ initialize pills
+    $("postForm").addEventListener("submit", submitEntry);
+    setStatus(`Ready.`);
+  });
+</script>
 </body>
 </html>

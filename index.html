@@ -4,137 +4,165 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Wife Wallet</title>
-  <style>
-  :root{
-    --bg:#0b1220;
-    --card:#0f1a2e;
-    --text:#e8eefc;
-    --muted:#9fb0d0;
-    --line:#1e2b46;
+<style>
+:root{
+  --bg:#0b1220;
+  --card:#0f1a2e;
+  --text:#e8eefc;
+  --muted:#9fb0d0;
 
-    --blue:#2f6bff;
-    --blue2:#1f4fd1;
+  --blue:#2f6bff;
+  --blue2:#1f4fd1;
 
-    --ok:#2dd4bf;
-    --err:#fb7185;
+  --ok:#2dd4bf;
+  --err:#fb7185;
 
-    --shadow: 0 10px 30px rgba(0,0,0,.35);
-    --radius:18px;
-  }
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+  --radius:18px;
 
-  *{ box-sizing:border-box; }
+  --fieldBg: rgba(10,18,35,.70);
+  --stroke: rgba(255,255,255,.10);
+  --stroke2: rgba(255,255,255,.08);
+}
 
-  body{
-    margin:0;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    background:
-      radial-gradient(1200px 800px at 30% -10%, #12244a 0%, rgba(18,36,74,0) 60%),
-      radial-gradient(900px 600px at 110% 10%, #1a2d63 0%, rgba(26,45,99,0) 55%),
-      var(--bg);
-    color:var(--text);
-    min-height:100vh;
-    display:flex;
-    align-items:flex-start;
-    justify-content:center;
-    padding:24px 14px 60px;
-  }
+*{ box-sizing:border-box; }
 
-  .wrap{ width:min(720px, 100%); }
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background:
+    radial-gradient(1200px 800px at 30% -10%, #12244a 0%, rgba(18,36,74,0) 60%),
+    radial-gradient(900px 600px at 110% 10%, #1a2d63 0%, rgba(26,45,99,0) 55%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:24px 14px 60px;
+}
 
-  h1{
-    margin: 6px 0 14px;
-    font-size: 28px;
-    letter-spacing: .2px;
-  }
+.wrap{ width:min(720px, 100%); }
 
-  .card{
-    background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-    border:1px solid rgba(255,255,255,.08);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 18px;
-  }
+h1{
+  margin: 6px 0 14px;
+  font-size: 28px;
+  letter-spacing: .2px;
+}
 
-  label{
-    display:block;
-    font-size: 13px;
-    color: var(--muted);
-    margin: 12px 0 8px;
-  }
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border:1px solid var(--stroke2);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
 
-  input[type="date"],
-  input[type="number"],
-  input[type="text"],
-  select{
-    width:100%;
-    background: rgba(10,18,35,.7);
-    color: var(--text);
-    border: 1px solid rgba(255,255,255,.10);
-    border-radius: 14px;
-    padding: 14px 14px;
-    outline: none;
-    font-size: 16px;
-  }
+label{
+  display:block;
+  font-size: 13px;
+  color: var(--muted);
+  margin: 12px 0 8px;
+}
 
-  input::placeholder{ color: rgba(231,238,252,.35); }
-  select{ padding-right: 44px; }
+input[type="date"],
+input[type="number"],
+input[type="text"],
+select{
+  width:100%;
+  background: var(--fieldBg);
+  color: var(--text);
+  border: 1px solid var(--stroke);
+  border-radius: 14px;
+  padding: 14px 14px;
+  outline: none;
+  font-size: 16px;
+}
 
-  .row{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
+input::placeholder{ color: rgba(231,238,252,.35); }
+select{ padding-right: 44px; }
 
-  /* ========= Type + Method pills (keep as-is) ========= */
-  .pillRow{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
+.row{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
 
-  .pill{
-    -webkit-tap-highlight-color: transparent;
-    user-select:none;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding: 14px 12px;
-    border-radius: 16px;
-    border: 1px solid rgba(255,255,255,.10);
-    background: rgba(10,18,35,.55);
-    color: var(--text);
-    font-weight: 750;
-    cursor:pointer;
-    transition: .15s ease;
-  }
+/* ========= Type + Method pills (keep consistent) ========= */
+.pillRow{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
 
-  .pill:active{ transform: scale(.99); }
-  input[type="radio"]{ display:none; }
+.pill{
+  -webkit-tap-highlight-color: transparent;
+  user-select:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 14px 12px;
+  border-radius: 16px;
+  border: 1px solid var(--stroke);
+  background: rgba(10,18,35,.55);
+  color: var(--text);
+  font-weight: 800;
+  cursor:pointer;
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background .12s ease;
+}
 
-  input[type="radio"]:checked + .pill{
-    border-color: rgba(47,107,255,.85);
-    box-shadow: 0 0 0 3px rgba(47,107,255,.18) inset;
-    background: rgba(47,107,255,.10);
-  }
+.pill:active{ transform: scale(.99); }
+input[type="radio"]{ display:none; }
 
-  /* ========= Category tiles (distinct style) ========= */
-/* ========= Category tiles (distinct style) ========= */
+input[type="radio"]:checked + .pill{
+  border-color: rgba(47,107,255,.90);
+  box-shadow: 0 0 0 3px rgba(47,107,255,.18) inset;
+  background: rgba(47,107,255,.10);
+}
 
+/* ========= Category frame (makes it feel intentional) ========= */
+.sectionFrame{
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.09);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.035), rgba(10,18,35,.35));
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.25) inset,
+    0 12px 26px rgba(0,0,0,.18);
+}
+
+.sectionHead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom: 10px;
+}
+
+.sectionTitle{
+  font-size: 13px;
+  color: rgba(159,176,208,.95);
+  font-weight: 850;
+  letter-spacing: .2px;
+}
+
+.sectionHint{
+  font-size: 12px;
+  color: rgba(159,176,208,.65);
+}
+
+/* ========= Category tiles (distinct from pills) ========= */
 .catGrid{
   display:grid;
-  /* responsive columns: makes tiles bigger + cleaner */
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
-  margin-top: 10px;
 }
 
 @media (min-width: 520px){
-  .catGrid{
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
+  .catGrid{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
-/* make categories feel different from Type/Method pills */
 .catTile{
   -webkit-tap-highlight-color: transparent;
   width:100%;
@@ -143,143 +171,112 @@
   gap: 10px;
 
   padding: 14px 12px;
-  min-height: 56px;
+  min-height: 58px;
 
-  /* slightly squarer than pills, to feel like "tiles" */
-  border-radius: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.11);
 
-  border: 1px solid rgba(255,255,255,.10);
-
-  /* distinct background (still matches your theme) */
   background:
+    radial-gradient(900px 90px at 10% 0%, rgba(47,107,255,.08), rgba(0,0,0,0) 60%),
     linear-gradient(180deg, rgba(255,255,255,.06), rgba(10,18,35,.55));
 
   color: var(--text);
   cursor:pointer;
   text-align:left;
 
-  /* smoother + more “tap” feeling */
   transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background .12s ease;
 }
 
-.catTile:active{
-  transform: scale(.99);
-}
+.catTile:active{ transform: scale(.99); }
 
 .catIcon{
-  font-size: 18px;
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   display:flex;
   align-items:center;
   justify-content:center;
-  opacity: .95;
 
-  border-radius: 10px;
+  font-size: 18px;
+  border-radius: 12px;
+
   background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.09);
+  box-shadow: 0 6px 14px rgba(0,0,0,.18);
+  opacity: .98;
 }
 
 .catText{
   font-size: 14.5px;
-  font-weight: 850;
+  font-weight: 900;
   letter-spacing: .2px;
   line-height: 1.1;
 }
 
-/* strong selected state (VERY obvious) */
+/* VERY obvious selected state */
 .catTile.active{
-  border-color: rgba(47,107,255,.95);
+  border-color: rgba(47,107,255,.98);
   background:
+    radial-gradient(900px 120px at 10% 0%, rgba(47,107,255,.22), rgba(0,0,0,0) 60%),
     linear-gradient(180deg, rgba(47,107,255,.22), rgba(47,107,255,.08));
 
   box-shadow:
-    0 0 0 3px rgba(47,107,255,.20) inset,
-    0 10px 26px rgba(0,0,0,.30);
+    0 0 0 3px rgba(47,107,255,.22) inset,
+    0 18px 30px rgba(0,0,0,.24);
 
   transform: translateY(-1px);
 }
 
-/* optional: make the icon pop on active */
 .catTile.active .catIcon{
   background: rgba(47,107,255,.18);
   border-color: rgba(47,107,255,.35);
+  box-shadow:
+    0 0 0 2px rgba(47,107,255,.18) inset,
+    0 10px 18px rgba(0,0,0,.22);
 }
 
-  /* ========= Button ========= */
-  .btn{
-    margin-top: 16px;
-    width:100%;
-    background: linear-gradient(180deg, var(--blue), var(--blue2));
-    color:white;
-    border:none;
-    border-radius: 16px;
-    padding: 16px 14px;
-    font-size: 18px;
-    font-weight: 850;
-    cursor:pointer;
-    transition: .15s ease;
-  }
+/* ========= Save button ========= */
+.btn{
+  margin-top: 16px;
+  width:100%;
+  background: linear-gradient(180deg, var(--blue), var(--blue2));
+  color:white;
+  border:none;
+  border-radius: 16px;
+  padding: 16px 14px;
+  font-size: 18px;
+  font-weight: 900;
+  cursor:pointer;
+  transition: transform .12s ease, filter .12s ease, opacity .12s ease;
+}
 
-  .btn:disabled{
-    opacity:.6;
-    cursor:not-allowed;
-  }
+.btn:active{ transform: scale(.995); }
+.btn:disabled{ opacity:.6; cursor:not-allowed; }
 
-  /* ========= Status + Hint ========= */
-  .status{
-    margin-top: 12px;
-    font-size: 14px;
-    color: var(--muted);
-    min-height: 20px;
-    word-break: break-word;
-  }
-  .status .ok{ color: var(--ok); font-weight: 750; }
-  .status .err{ color: var(--err); font-weight: 750; }
+/* ========= Status + Hint ========= */
+.status{
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--muted);
+  min-height: 20px;
+  word-break: break-word;
+}
 
-  .hint{
-    margin-top: 14px;
-    font-size: 12.5px;
-    color: rgba(159,176,208,.85);
-    line-height: 1.45;
-    padding: 12px 12px;
-    border-radius: 14px;
-    background: rgba(10,18,35,.45);
-    border: 1px solid rgba(255,255,255,.07);
-  }
+.status .ok{ color: var(--ok); font-weight: 800; }
+.status .err{ color: var(--err); font-weight: 800; }
 
-  @media (max-width:520px){
-    .row{ grid-template-columns: 1fr; }
-    .catGrid{ grid-template-columns: 1fr 1fr; } /* keep 2 columns even on mobile */
-  }
-  
-  
-  .sectionFrame{
+.hint{
   margin-top: 14px;
-  padding: 14px;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,.08);
-  background: rgba(10,18,35,.35);
-  box-shadow: 0 0 0 1px rgba(0,0,0,.25) inset;
+  font-size: 12.5px;
+  color: rgba(159,176,208,.85);
+  line-height: 1.45;
+  padding: 12px 12px;
+  border-radius: 14px;
+  background: rgba(10,18,35,.45);
+  border: 1px solid rgba(255,255,255,.07);
 }
 
-.sectionHead{
-  display:flex;
-  align-items:baseline;
-  justify-content:space-between;
-  margin-bottom: 10px;
-}
-
-.sectionTitle{
-  font-size: 13px;
-  color: rgba(159,176,208,.95);
-  font-weight: 750;
-  letter-spacing: .2px;
-}
-
-.sectionHint{
-  font-size: 12px;
-  color: rgba(159,176,208,.65);
+@media (max-width:520px){
+  .row{ grid-template-columns: 1fr; }
 }
 </style>
 </head>

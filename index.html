@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wife Wallet</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#0f1a2e;
+      --text:#e8eefc;
+      --muted:#9fb0d0;
+      --blue:#2f6bff;
+      --blue2:#1f4fd1;
+      --ok:#2dd4bf;
+      --err:#fb7185;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 800px at 30% -10%, #12244a 0%, rgba(18,36,74,0) 60%),
+                  radial-gradient(900px 600px at 110% 10%, #1a2d63 0%, rgba(26,45,99,0) 55%),
+                  var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:24px 14px 60px;
+    }
+    .wrap{ width:min(720px, 100%); }
+    h1{ margin: 6px 0 14px; font-size: 28px; letter-spacing: .2px; }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    label{
+      display:block;
+      font-size: 13px;
+      color: var(--muted);
+      margin: 12px 0 8px;
+    }
+    input[type="date"], input[type="number"], input[type="text"], select{
+      width:100%;
+      background: rgba(10,18,35,.7);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 14px;
+      padding: 14px 14px;
+      outline: none;
+      font-size: 16px;
+    }
+    input::placeholder{ color: rgba(231,238,252,.35); }
+    select{ padding-right: 44px; }
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .pillRow{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .pill{
+      user-select:none;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 14px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(10,18,35,.55);
+      color: var(--text);
+      font-weight: 650;
+      cursor:pointer;
+      transition: .15s ease;
+    }
+    .pill:active{ transform: scale(.99); }
+    input[type="radio"]{ display:none; }
+    input[type="radio"]:checked + .pill{
+      border-color: rgba(47,107,255,.8);
+      box-shadow: 0 0 0 3px rgba(47,107,255,.18) inset;
+      background: rgba(47,107,255,.10);
+    }
+    .btn{
+      margin-top: 16px;
+      width:100%;
+      background: linear-gradient(180deg, var(--blue), var(--blue2));
+      color:white;
+      border:none;
+      border-radius: 16px;
+      padding: 16px 14px;
+      font-size: 18px;
+      font-weight: 750;
+      cursor:pointer;
+      transition: .15s ease;
+    }
+    .btn:disabled{ opacity:.6; cursor:not-allowed; }
+    .status{
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--muted);
+      min-height: 20px;
+      word-break: break-word;
+    }
+    .status .ok{ color: var(--ok); font-weight: 650; }
+    .status .err{ color: var(--err); font-weight: 650; }
+    .hint{
+      margin-top: 14px;
+      font-size: 12.5px;
+      color: rgba(159,176,208,.85);
+      line-height: 1.45;
+      padding: 12px 12px;
+      border-radius: 14px;
+      background: rgba(10,18,35,.45);
+      border: 1px solid rgba(255,255,255,.07);
+    }
+    @media (max-width:520px){
+      .row{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <h1>Wife Wallet</h1>
+
+    <div class="card">
+      <form id="postForm">
+        <label for="date">Date</label>
+        <input id="date" type="date" required />
+
+        <label>Type</label>
+        <div class="pillRow">
+          <input type="radio" name="type" id="typeSpend" value="Spend" checked>
+          <label class="pill" for="typeSpend">Spend</label>
+
+          <input type="radio" name="type" id="typeTopup" value="Top-Up">
+          <label class="pill" for="typeTopup">Top-Up</label>
+        </div>
+
+        <label>Method</label>
+        <div class="pillRow">
+          <input type="radio" name="method" id="mCash" value="Cash" checked>
+          <label class="pill" for="mCash">Cash</label>
+
+          <input type="radio" name="method" id="mCard" value="Card">
+          <label class="pill" for="mCard">Card</label>
+        </div>
+
+        <label for="category">Category</label>
+        <select id="category" required>
+          <option value="Groceries">Groceries</option>
+          <option value="Food – Outside">Food – Outside</option>
+          <option value="Household / Utilities">Household / Utilities</option>
+          <option value="Coffee, Snacks & Juice">Coffee, Snacks & Juice</option>
+          <option value="Shopping">Shopping</option>
+          <option value="Transport">Transport</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <div class="row">
+          <div>
+            <label for="amount">Amount</label>
+            <input id="amount" type="number" inputmode="decimal" step="0.01" min="0" placeholder="e.g. 50" required />
+          </div>
+          <div>
+            <label for="note">Note (optional)</label>
+            <input id="note" type="text" placeholder="Voice dictation works" />
+          </div>
+        </div>
+
+        <button class="btn" id="submitBtn" type="submit">Save</button>
+
+        <div class="status" id="msg"></div>
+
+        <div class="hint">
+          This version avoids CORS by sending a normal form POST.<br/>
+          If you get <b>“Unauthorized (bad token)”</b>, TOKEN mismatch.
+        </div>
+
+        <!-- Hidden field that will carry JSON text to Apps Script -->
+        <input type="hidden" id="payloadField" name="payload" value="" />
+      </form>
+    </div>
+  </div>
+
+  <!-- Hidden iframe to submit without leaving the page -->
+  <iframe id="postTarget" name="postTarget" style="display:none;"></iframe>
+
+  <script>
+    // ======= CONFIG (ONLY CHANGE ENDPOINT) =======
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbziDIbvRbN55xcLvL_yO0xBQ-1QpZ_qqo_Rzt75So8H6PwE5YZ8N4I6rPIAf4QwIFeB/exec";
+    const TOKEN = "WIFE_WALLET_2026";
+    // ============================================
+
+    function $(id){ return document.getElementById(id); }
+
+    function todayISO(){
+      const d = new Date();
+      const pad = n => String(n).padStart(2, "0");
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+    }
+
+    function setStatus(html){ $("msg").innerHTML = html; }
+
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[m]));
+    }
+
+    function submitEntry(e){
+      e.preventDefault();
+
+      if (!ENDPOINT || !ENDPOINT.startsWith("https://script.google.com/macros/s/")) {
+        setStatus(`<span class="err">Error:</span> ENDPOINT is not a valid Apps Script /exec URL.`);
+        return;
+      }
+
+      const payload = {
+        token: TOKEN,
+        date: $("date").value,
+        type: document.querySelector('input[name="type"]:checked')?.value || "",
+        method: document.querySelector('input[name="method"]:checked')?.value || "",
+        category: $("category").value,
+        amount: $("amount").value,
+        note: $("note").value || ""
+      };
+
+      $("submitBtn").disabled = true;
+      setStatus(`Posting…`);
+
+      // Put JSON text into the hidden field named "payload"
+      $("payloadField").value = JSON.stringify(payload);
+
+      // Submit as a normal form POST (no CORS preflight)
+      const form = $("postForm");
+      form.action = ENDPOINT;
+      form.method = "POST";
+      form.target = "postTarget";
+
+      // When iframe loads, assume success (Apps Script returns JSON but we don't read it here)
+      const iframe = $("postTarget");
+      iframe.onload = () => {
+        setStatus(`<span class="ok">Sent ✅</span> Check the Google Sheet for the new row.`);
+        $("amount").value = "";
+        $("note").value = "";
+        $("amount").focus();
+        $("submitBtn").disabled = false;
+
+        // remove handler so it doesn't fire on unrelated loads
+        iframe.onload = null;
+      };
+
+      try{
+        HTMLFormElement.prototype.submit.call(form);
+      } catch (err){
+        setStatus(`<span class="err">Error:</span> ${escapeHtml(err.message || String(err))}`);
+        $("submitBtn").disabled = false;
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      $("date").value = todayISO();
+      $("postForm").addEventListener("submit", submitEntry);
+      setStatus(`Ready.`);
+    });
+  </script>
+</body>
+</html>

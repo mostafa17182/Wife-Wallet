@@ -122,7 +122,8 @@ input[type="radio"]:checked + .pill{
 
 /* ========= Category frame (makes it feel intentional) ========= */
 .sectionFrame{
-  margin-top: 14px;
+  margin-top: 18px;
+  margin-bottom: 18px; /* NEW: breathing room before Amount */
   padding: 14px;
   border-radius: 18px;
   border: 1px solid rgba(255,255,255,.09);
@@ -133,6 +134,19 @@ input[type="radio"]:checked + .pill{
     0 12px 26px rgba(0,0,0,.18);
 }
 
+.sectionFrame::before{
+  content:"";
+  display:block;
+  height:1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255,255,255,.12),
+    transparent
+  );
+  margin-bottom: 14px;
+}
+
 .sectionHead{
   display:flex;
   align-items:center;
@@ -141,10 +155,10 @@ input[type="radio"]:checked + .pill{
 }
 
 .sectionTitle{
-  font-size: 13px;
-  color: rgba(159,176,208,.95);
-  font-weight: 850;
-  letter-spacing: .2px;
+  font-size: 14px;
+  color: #c7d2fe;
+  font-weight: 900;
+  letter-spacing: .4px;
 }
 
 .sectionHint{
@@ -310,7 +324,7 @@ input[type="radio"]:checked + .pill{
 <div class="sectionFrame">
   <div class="sectionHead">
     <span class="sectionTitle">Category</span>
-    <span class="sectionHint">Tap one</span>
+  <!-- <span class="sectionHint">Tap one</span> -->
   </div>
 
 <input id="category" type="hidden" value="Groceries" />

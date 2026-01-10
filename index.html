@@ -197,11 +197,16 @@ input[type="radio"]:checked + .pill{
   color: var(--text);
   cursor:pointer;
   text-align:left;
-
+box-shadow: 0 0 0 rgba(0,0,0,0);
   transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease, background .12s ease;
 }
 
-.catTile:active{ transform: scale(.99); }
+.catTile:active{ transform: scale(.99);
+box-shadow:
+    0 0 0 2px rgba(47,107,255,.35),
+    0 10px 24px rgba(0,0,0,.35);
+
+ }
 
 .catIcon{
   width: 34px;

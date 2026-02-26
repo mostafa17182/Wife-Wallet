@@ -487,7 +487,7 @@ box-shadow:
       $("submitBtn").disabled = false;
       iframe.onload = null;
     };
-
+alert("DATE VALUE = " + $("date")?.value);
     try{
       // avoid "form.submit is not a function" (shadowing)
       HTMLFormElement.prototype.submit.call(form);
@@ -499,7 +499,10 @@ box-shadow:
   }
 
   window.addEventListener("DOMContentLoaded", () => {
-    $("date").value = todayISO();
+
+    const dateEl = $("date");
+  if (dateEl) dateEl.value = todayISO();  // YYYY-MM-DD
+   // $("date").value = todayISO();
 
     initCategoryTiles();
 
@@ -510,5 +513,6 @@ box-shadow:
 </body>
 
 </html>
+
 
 

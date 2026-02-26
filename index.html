@@ -475,7 +475,8 @@ box-shadow:
     const form = $("postForm");
     form.action = ENDPOINT;
     form.method = "POST";
-    form.target = "postTarget";
+    //form.target = "postTarget";
+    form.target = "_self";   // instead of "postTarget"
 
     const iframe = $("postTarget");
     iframe.onload = () => {
@@ -509,4 +510,5 @@ box-shadow:
 </body>
 
 </html>
+
 

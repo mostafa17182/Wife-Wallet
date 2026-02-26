@@ -449,10 +449,10 @@ box-shadow:
       setStatus(`<span class="err">Error:</span> ENDPOINT is not a valid Apps Script /exec URL.`);
       return;
     }
-
+const dateVal = $("date")?.value || ""; // should be YYYY-MM-DD
     const payload = {
       token: TOKEN,
-      date: $("date").value,
+      date: dateVal,
       type: document.querySelector('input[name="type"]:checked')?.value || "",
       method: document.querySelector('input[name="method"]:checked')?.value || "",
       category: $("category").value || "",
@@ -460,6 +460,11 @@ box-shadow:
       note: $("note").value || ""
     };
 
+    if (!payload.date) {
+    setStatus(`<span class="err">Error:</span> Date is empty on the client.`);
+    return;
+  }
+    
     if (!payload.category) {
       setStatus(`<span class="err">Error:</span> Pick a category.`);
       return;
@@ -469,14 +474,17 @@ box-shadow:
     setStatus(`Posting…`);
 
     // Put JSON into hidden field named payload
-    $("payloadField").value = JSON.stringify(payload);
+   const payloadStr = JSON.stringify(payload);
+$("payloadField").value = payloadStr;
+
+alert("PAYLOAD JSON = " + payloadStr);
 
     // Normal form POST (no CORS preflight)
     const form = $("postForm");
     form.action = ENDPOINT;
     form.method = "POST";
-    //form.target = "postTarget";
-    form.target = "_self";   // instead of "postTarget"
+    form.target = "postTarget";
+   // form.target = "_self";   // instead of "postTarget"
 
     const iframe = $("postTarget");
     iframe.onload = () => {
@@ -513,6 +521,7 @@ alert("DATE VALUE = " + $("date")?.value);
 </body>
 
 </html>
+
 
 
 

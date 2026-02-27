@@ -488,7 +488,7 @@ box-shadow:
    const payloadStr = JSON.stringify(payload);
 $("payloadField").value = payloadStr;
 
-alert("PAYLOAD JSON = " + payloadStr);
+//alert("PAYLOAD JSON = " + payloadStr);
 
     // Normal form POST (no CORS preflight)
     const form = $("postForm");
@@ -506,7 +506,7 @@ alert("PAYLOAD JSON = " + payloadStr);
       $("submitBtn").disabled = false;
       iframe.onload = null;
     };
-alert("DATE VALUE = " + $("date")?.value);
+//alert("DATE VALUE = " + $("date")?.value);
     try{
       // avoid "form.submit is not a function" (shadowing)
       HTMLFormElement.prototype.submit.call(form);
@@ -532,6 +532,7 @@ alert("DATE VALUE = " + $("date")?.value);
 </body>
 
 </html>
+
 
 
 

@@ -484,8 +484,8 @@ alert("PAYLOAD JSON = " + payloadStr);
     const form = $("postForm");
     form.action = ENDPOINT;
     form.method = "POST";
-    form.target = "postTarget";
-   // form.target = "_self";   // instead of "postTarget"
+   // form.target = "postTarget";
+    form.target = "_self";   // instead of "postTarget"
 
     const iframe = $("postTarget");
     iframe.onload = () => {
@@ -522,6 +522,7 @@ alert("DATE VALUE = " + $("date")?.value);
 </body>
 
 </html>
+
 
 
 

@@ -307,7 +307,7 @@ box-shadow:
     <div class="card">
       <form id="postForm">
         <label for="date">Date</label>
-        <input id="date" type="date" required />
+        <input id="date" name="date" type="date" required />
 
         <label>Type</label>
         <div class="pillRow">
@@ -450,7 +450,12 @@ box-shadow:
       setStatus(`<span class="err">Error:</span> ENDPOINT is not a valid Apps Script /exec URL.`);
       return;
     }
-const dateVal = $("date")?.value || ""; // should be YYYY-MM-DD
+    const dateEl = $("date");
+    const dateVal = dateEl ? dateEl.value : ""; // should be YYYY-MM-DD
+    if(!dateVal) {
+      setStatus(`<span class="err">Error:</span> Date is empty. Check that your input has id="date".`);
+    return;
+    }
     const payload = {
       token: TOKEN,
       date: dateVal,
@@ -461,6 +466,10 @@ const dateVal = $("date")?.value || ""; // should be YYYY-MM-DD
       note: $("note").value || ""
     };
 
+    // HARD DEBUG (kills guessing)
+  console.log("DATE VALUE =", dateVal);
+  console.log("PAYLOAD JSON =", payload);
+    
     if (!payload.date) {
     setStatus(`<span class="err">Error:</span> Date is empty on the client.`);
     return;
@@ -522,6 +531,7 @@ alert("DATE VALUE = " + $("date")?.value);
 </body>
 
 </html>
+
 
 
 
